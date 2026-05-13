@@ -1,6 +1,5 @@
 "use client";
 
-import { Image } from "@imagekit/next";
 import { IMAGEKIT_URL_ENDPOINT } from "@/lib/constants";
 
 type CreatorInfoProps = {
@@ -20,20 +19,13 @@ export default function CreatorInfo({
     <div className="flex flex-col gap-3 max-w-[75%]">
       {/* Username with avatar */}
       <div className="flex items-center gap-2">
-        <Image
-          urlEndpoint={IMAGEKIT_URL_ENDPOINT}
-          src={avatarPath}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${IMAGEKIT_URL_ENDPOINT}${avatarPath}`}
           alt={username}
           width={40}
           height={40}
           className="rounded-full object-cover"
-          transformation={[
-            {
-              width: "80",
-              height: "80",
-              focus: "face",
-            },
-          ]}
         />
         <span className="font-bold text-sm">@{username}</span>
         <button className="ml-2 border border-white/50 rounded px-3 py-0.5 text-xs font-semibold">

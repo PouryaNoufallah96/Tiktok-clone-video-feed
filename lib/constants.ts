@@ -12,34 +12,8 @@ export type Video = {
   bookmarks: number;
   videoPath: string;
   avatarPath: string;
-  thumbnailTime: number; // seconds into video for thumbnail
+  thumbnailTime: number;
 };
-
-// Helper to build ImageKit video thumbnail URL
-export function getVideoThumbnail(
-  videoPath: string,
-  time: number,
-  width = 200,
-  height = 356
-): string {
-  return `${IMAGEKIT_URL_ENDPOINT}${videoPath}/ik-thumbnail.jpg?tr=so-${time},w-${width},h-${height}`;
-}
-
-// Helper to build HLS streaming URL (Adaptive Bitrate Streaming)
-export function getHLSUrl(videoPath: string): string {
-  return `${IMAGEKIT_URL_ENDPOINT}${videoPath}/ik-master.m3u8?tr=sr-240_360_480_720`;
-}
-
-// Helper to build MP4 fallback with resize
-export function getMP4Url(videoPath: string, width = 720): string {
-  return `${IMAGEKIT_URL_ENDPOINT}${videoPath}?tr=w-${width},q-80`;
-}
-
-// Helper to build video URL with text overlay (watermark)
-export function getVideoWithOverlay(videoPath: string): string {
-  const encodedText = btoa("@coby");
-  return `${IMAGEKIT_URL_ENDPOINT}${videoPath}?tr=l-text,i-${encodedText},fs-30,co-FFFFFFCC,lx-20,ly-20,l-end`;
-}
 
 export const SAMPLE_VIDEOS: Video[] = [
   {
@@ -47,7 +21,7 @@ export const SAMPLE_VIDEOS: Video[] = [
     username: "coby",
     displayName: "Coby",
     description:
-      "Next.js video streaming with ImageKit 🔥 Adaptive bitrate, thumbnails, overlays #nextjs #imagekit",
+      "Next.js video streaming with ImageKit #nextjs #imagekit",
     musicName: "Lo-Fi Coding Beats",
     likes: 14200,
     comments: 892,
@@ -62,7 +36,7 @@ export const SAMPLE_VIDEOS: Video[] = [
     username: "coby",
     displayName: "Coby",
     description:
-      "Build your own course platform with Next.js 🚀 Custom video player, auth, and more #nextjs #course",
+      "Build your own course platform with Next.js #nextjs #course",
     musicName: "Chill Code Vibes",
     likes: 28500,
     comments: 1340,
@@ -77,7 +51,7 @@ export const SAMPLE_VIDEOS: Video[] = [
     username: "coby",
     displayName: "Coby",
     description:
-      "How Amazon structures their monorepo 🏗️ Scaling frontend at enterprise level #monorepo #amazon",
+      "How Amazon structures their monorepo #monorepo #amazon",
     musicName: "Tech Talk Beats",
     likes: 9800,
     comments: 567,
@@ -92,7 +66,7 @@ export const SAMPLE_VIDEOS: Video[] = [
     username: "coby",
     displayName: "Coby",
     description:
-      "Next.js custom course platform deep dive 🎓 Full-stack setup walkthrough #nextjs #fullstack",
+      "Next.js custom course platform deep dive #nextjs #fullstack",
     musicName: "Focus Mode",
     likes: 42000,
     comments: 2100,
@@ -107,7 +81,7 @@ export const SAMPLE_VIDEOS: Video[] = [
     username: "coby",
     displayName: "Coby",
     description:
-      "Amazon monorepo architecture explained 📦 Why big tech uses monorepos #architecture #webdev",
+      "Amazon monorepo architecture explained #architecture #webdev",
     musicName: "Dev Podcast Beats",
     likes: 31200,
     comments: 1890,

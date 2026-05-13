@@ -1,13 +1,9 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import Hls from "hls.js";
 import {
   Video as VideoType,
-  getHLSUrl,
-  getMP4Url,
-  getVideoThumbnail,
-  getVideoWithOverlay,
+  IMAGEKIT_URL_ENDPOINT,
 } from "@/lib/constants";
 import ActionBar from "./ActionBar";
 import CreatorInfo from "./CreatorInfo";
@@ -18,48 +14,11 @@ type VideoCardProps = {
 
 export default function VideoCard({ video }: VideoCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const hlsRef = useRef<Hls | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showPlayIcon, setShowPlayIcon] = useState(false);
 
-  // ImageKit Adaptive Bitrate Streaming (HLS)
-  // Generates an HLS manifest with 240p, 360p, 480p, 720p variants
-  const hlsSrc = getHLSUrl(video.videoPath);
-  const mp4Src = getVideoWithOverlay(video.videoPath);
-  const posterSrc = getVideoThumbnail(
-    video.videoPath,
-    video.thumbnailTime,
-    720,
-    1280
-  );
-
-  // Initialize HLS.js for Chrome/Firefox, or use native HLS for Safari
-  useEffect(() => {
-    const videoEl = videoRef.current;
-    if (!videoEl) return;
-
-    if (Hls.isSupported()) {
-      // Chrome, Firefox, Edge — use hls.js to parse the manifest and load chunks
-      // Open Network tab to see .m3u8 manifests and .ts chunks loading
-      const hls = new Hls({
-        startLevel: -1, // Auto-select quality based on bandwidth
-      });
-      hls.loadSource(hlsSrc);
-      hls.attachMedia(videoEl);
-      hlsRef.current = hls;
-
-      return () => {
-        hls.destroy();
-        hlsRef.current = null;
-      };
-    } else if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
-      // Safari — native HLS support
-      videoEl.src = hlsSrc;
-    } else {
-      // Fallback to MP4 with ImageKit resize
-      videoEl.src = mp4Src;
-    }
-  }, [hlsSrc, mp4Src]);
+  // Raw MP4 — no streaming, no optimization
+  const videoSrc = `${IMAGEKIT_URL_ENDPOINT}${video.videoPath}`;
 
   // Auto-play/pause based on scroll visibility
   useEffect(() => {
@@ -101,15 +60,15 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <div className="snap-item relative w-full bg-black flex items-center justify-center">
-      {/* Video — HLS source is set via hls.js or native */}
+      {/* Video — raw MP4, no poster */}
       <video
         ref={videoRef}
+        src={videoSrc}
         className="absolute inset-0 w-full h-full object-cover"
         loop
         muted
         playsInline
         preload="metadata"
-        poster={posterSrc}
         onClick={togglePlay}
       />
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { Image } from "@imagekit/next";
 import { IMAGEKIT_URL_ENDPOINT, formatCount } from "@/lib/constants";
 
 type ProfileHeaderProps = {
@@ -24,21 +23,14 @@ export default function ProfileHeader({
 }: ProfileHeaderProps) {
   return (
     <div className="flex flex-col items-center pt-8 pb-4 px-4">
-      {/* Avatar with face detection crop */}
-      <Image
-        urlEndpoint={IMAGEKIT_URL_ENDPOINT}
-        src={avatarPath}
+      {/* Avatar — plain img, no smart crop */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${IMAGEKIT_URL_ENDPOINT}${avatarPath}`}
         alt={displayName}
         width={96}
         height={96}
         className="rounded-full object-cover border-2 border-white/20"
-        transformation={[
-          {
-            width: "192",
-            height: "192",
-            focus: "face",
-          },
-        ]}
       />
 
       <h1 className="mt-3 text-lg font-bold">{displayName}</h1>
