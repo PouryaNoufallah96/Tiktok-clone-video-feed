@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import {
   Video as VideoType,
-  IMAGEKIT_URL_ENDPOINT,
+  getRawVideoUrl,
 } from "@/lib/constants";
 import ActionBar from "./ActionBar";
 import CreatorInfo from "./CreatorInfo";
@@ -18,7 +18,7 @@ export default function VideoCard({ video }: VideoCardProps) {
   const [showPlayIcon, setShowPlayIcon] = useState(false);
 
   // Raw MP4 — no streaming, no optimization
-  const videoSrc = `${IMAGEKIT_URL_ENDPOINT}${video.videoPath}`;
+  const videoSrc = getRawVideoUrl(video.videoPath);
 
   // Auto-play/pause based on scroll visibility
   useEffect(() => {
