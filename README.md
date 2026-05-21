@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Production-Ready Video Feed
+
+A TikTok-style short video feed built with Next.js, showing how to go from raw MP4 files to a production-ready media experience with thumbnails, responsive transformations, watermarks, and adaptive bitrate streaming.
+
+## The Problem
+
+Shipping a video feed with raw MP4 files works for a prototype, but falls apart in production:
+
+- No video thumbnails, so users see blank placeholders or loading spinners
+- No resizing or cropping, so every device downloads the same oversized file
+- No branding or way to watermark or overlay text on videos
+- No adaptive streaming, so users on slow connections buffer endlessly
+
+## The Solution
+
+Each feature is implemented incrementally using [ImageKit](https://tinyurl.com/34ermy36) for URL-based video transformations. No re-encoding pipelines, no media servers, no FFmpeg on your backend. Just transform the URL and get what you need.
+
+## Branches
+
+### `main`
+
+The starting point - a fully functional TikTok-style UI that serves raw MP4 videos with no optimizations. This is the baseline that shows the gaps in a naive video feed implementation.
+
+### `solution`
+
+The production-ready version with all video delivery features layered in, one commit at a time:
+
+1. **Video Thumbnails** - Generate preview thumbnails from any video frame via URL
+2. **Resize & Crop Transformations** - Smart crop, pad resize, and aspect ratio control for different layouts
+3. **Text Overlay Watermarks** - Brand videos with text overlays directly through URL parameters
+4. **HLS Adaptive Bitrate Streaming** - Serve video with adaptive bitrate using hls.js so playback adapts to network conditions
 
 ## Getting Started
 
-First, run the development server:
+1. Fork this repo, then clone your fork and install dependencies:
+
+```bash
+git clone https://github.com/<your-username>/Tiktok-feed.git
+cd Tiktok-feed
+npm install
+```
+
+2. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To follow along with the video, stay on the `main` branch - it's the starting point where you'll build from. If you want to see the finished solutions, switch to the `solution` branch:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+git checkout solution
+```
 
-## Learn More
+Each commit on `solution` adds one feature at a time, so you can step through them to see how each optimization was implemented.
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org) - React framework
+- [ImageKit](https://tinyurl.com/34ermy36) - Video optimization, transformations, and delivery
+- [hls.js](https://github.com/video-dev/hls.js/) - HLS adaptive playback in the browser
+- [Tailwind CSS](https://tailwindcss.com) - Styling
